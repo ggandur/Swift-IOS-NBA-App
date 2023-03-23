@@ -5,10 +5,12 @@
 //  Created by Gabriel Gandur on 16/03/23.
 //
 
+import Kingfisher
 import SwiftUI
+import UIKit
 
 struct ContentView: View {
-    @State var myArrayOfPlayers: [PlayerType] = PlayerData.players
+    @State var myArrayOfPlayers: [PlayerType] = []
     var body: some View {
         ZStack {
             VStack {
@@ -21,6 +23,15 @@ struct ContentView: View {
                 Divider()
                 PlayerListView(players: myArrayOfPlayers)
             }
+            .onAppear {
+                getNbaPlayers { playersJson in
+                    if let playersJson = playersJson {
+                        myArrayOfPlayers = playersJson
+                    } else {
+                        print("Erro ao obter informações")
+                    }
+                }
+            }
         }
     }
 }
@@ -32,8 +43,7 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct PlayerContainerView: View {
-    var playerName: String
-    var playerImage: String
+    var player: PlayerType
 
     var body: some View {
         VStack {
@@ -41,14 +51,27 @@ struct PlayerContainerView: View {
                 Color(uiColor: .lightGray)
                     .cornerRadius(12)
                 HStack {
-                    Image(playerImage)
-                        .resizable()
-                        .scaledToFit()
-                        .aspectRatio(contentMode: .fit)
-                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
-                    Text(playerName)
-                        .bold()
-                        .font(.system(size: 24))
+                    if let playerId = player.personId {
+                        let url = "https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/\(playerId).png"
+                        
+                        AsyncImage(url: URL(string: url)) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .padding(EdgeInsets(top: 10, leading: 40, bottom: 0, trailing: 0))
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(width: 50, height: 70)
+                    }
+                    if let nomeJogador = player.firstName {
+                        if let sobrenomeJogador = player.lastName {
+                            Text("\(nomeJogador) \(sobrenomeJogador)")
+                                .bold()
+                                .font(.system(size: 24))
+                                .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 0))
+                        }
+                    }
                     Spacer()
                 }
             }
@@ -65,14 +88,13 @@ struct PlayerListView: View {
         ScrollView {
             VStack {
                 ForEach(players, id: \.self) { player in
-                    PlayerContainerView(playerName: player.name, playerImage: player.image)
+                    if let player = player {
+                        PlayerContainerView(player: player)
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
+                    }
                 }
             }
+            .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
         }
     }
-}
-
-struct PlayerType: Hashable {
-    var name: String
-    var image: String
 }

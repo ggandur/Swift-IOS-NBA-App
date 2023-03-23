@@ -9,17 +9,17 @@ import Foundation
 
 struct PlayerData {
     static let players: [PlayerType] = [
-        PlayerType(name: "LeBron James", image: "lebron"),
-        PlayerType(name: "Kevin Durant", image: "durant"),
-        PlayerType(name: "Luka Doncic", image: "doncic"),
-        PlayerType(name: "LeBron James", image: "lebron"),
-        PlayerType(name: "Kevin Durant", image: "durant"),
-        PlayerType(name: "Luka Doncic", image: "doncic"),
-        PlayerType(name: "LeBron James", image: "lebron"),
-        PlayerType(name: "Kevin Durant", image: "durant"),
-        PlayerType(name: "Luka Doncic", image: "doncic"),
-        PlayerType(name: "LeBron James", image: "lebron"),
-        PlayerType(name: "Kevin Durant", image: "durant"),
-        PlayerType(name: "Luka Doncic", image: "doncic"),
+        PlayerType(firstName: "LeBron", lastName: "James"),
+        PlayerType(firstName: "Kevin", lastName: "Durant"),
+        PlayerType(firstName: "Luka", lastName: "Doncic"),
+        PlayerType(firstName: "LeBron", lastName: "James"),
+        PlayerType(firstName: "Kevin", lastName: "Durant"),
+        PlayerType(firstName: "Luka", lastName: "Doncic"),
+        PlayerType(firstName: "LeBron", lastName: "James"),
+        PlayerType(firstName: "Kevin", lastName: "Durant"),
+        PlayerType(firstName: "Luka", lastName: "Doncic"),
+        PlayerType(firstName: "LeBron", lastName: "James"),
+        PlayerType(firstName: "Kevin", lastName: "Durant"),
+        PlayerType(firstName: "Luka", lastName: "Doncic"),
     ]
 }
